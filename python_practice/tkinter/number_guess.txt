@@ -1,0 +1,183 @@
+#Number guessing game using tkinter
+
+import random
+import time
+from tkinter import *
+from tkmacosx import *
+
+
+def play_again():
+    pass
+    global attempts
+    global min_attempts
+    if min_attempts == 0 or attempts < min_attempts:
+        min_attempts = attempts
+        min_attempts_box.configure(state = NORMAL)
+        min_attempts_box.delete(0,END)
+        min_attempts_box.insert(0,min_attempts)
+        min_attempts_box.configure(state = DISABLED)
+    attempts = 0
+    #Enable limit setting buttons & disable play again button
+    but_10.configure(state = NORMAL)
+    but_100.configure(state = NORMAL)
+    but_1000.configure(state = NORMAL)
+    but_10000.configure(state = NORMAL)
+    button_play_again.configure(state = DISABLED)
+    #
+    sys_guess_box.configure(state = NORMAL)
+    sys_guess_box.delete(0,END)
+    sys_guess_box.configure(state = DISABLED)
+    user_guess_but.configure(state = NORMAL)
+    user_guess_box.configure(state = NORMAL)
+    user_guess_box.delete(0,END)
+    #
+    status_lab.configure(text = "")
+    #
+    #print(min_attempts)
+    
+#
+
+def check_guess():
+    pass
+    global golden
+    global user_guess
+    global attempts
+    global min_attempts
+    #attempts = min_attempts = 0
+    user_guess = 0
+    
+    try:
+        user_guess = int(user_guess_box.get())
+        if user_guess <= 0:
+            user_guess_box.delete(0, END)
+            #user_guess_box.configure(text = "Enter value more than 0")
+            #time.sleep(3)
+            user_guess_box.delete(0,END)
+            user_guess_box.focus_set()
+    except ValueError:
+        user_guess = 0
+        user_guess_box.focus_set()
+    
+    #print(user_guess)
+    if user_guess == 0 :
+        status_lab.configure(text = "Enter a number greater than 0 and less than or equal to limit chosen...")
+        #myMain.after(3000)
+    elif user_guess == golden :
+        attempts += 1
+        status_lab.configure(text = "Eurekaaaa... You nailed it in " + str(attempts) + ", do you want to play agin?")
+        sys_guess_box.configure(state = NORMAL)
+        sys_guess_box.insert(0,golden)
+        sys_guess_box.configure(state = DISABLED)
+        button_play_again.configure(state = NORMAL)
+        user_guess_but.configure(state = DISABLED)
+        user_guess_box.configure(state = DISABLED)
+    elif user_guess < golden :
+        attempts += 1
+        status_lab.configure(text = str(attempts) + " attempts " + str(user_guess) + " is too low, jump higher...")
+        user_guess_box.delete(0,END)
+        user_guess_box.focus_set()
+    elif user_guess > golden :
+        attempts += 1
+        status_lab.configure(text = str(attempts) + " attempts " + str(user_guess) + " is too high, jump lower...")
+        user_guess_box.delete(0,END)
+        user_guess_box.focus_set()
+#
+
+def target(upper):
+    pass
+    global golden
+    golden = random.randint(1, upper)
+    sys_guess_box.configure(state = NORMAL)
+    sys_guess_box.delete(0,END)
+    
+    #display game play components for system
+    sys_guess_lab.grid(row = 6, column = 0, columnspan = 2)
+    sys_guess_box.grid(row = 6, column = 2)
+    #sys_guess_box.insert(0,golden)
+    sys_guess_box.configure(state = DISABLED)
+    but_10.configure(state = DISABLED)
+    but_100.configure(state = DISABLED)
+    but_1000.configure(state = DISABLED)
+    but_10000.configure(state = DISABLED)
+    
+    #display game play components for player
+    user_guess_lab.grid(row = 7, column = 0, columnspan = 2)
+    user_guess_box.grid(row = 7, column = 2)
+    user_guess_but.grid(row = 7, column = 3)
+    user_guess_box.insert(0,"Enter your guess...")
+    #time.sleep(2)
+    user_guess_box.delete(0,END)
+    user_guess_box.focus_set()
+#
+    
+def set_limits():
+    pass
+    #display limit setting components
+    range_lab.configure(background = "white")
+    range_lab.grid(row = 4, columnspan = 4)
+    but_10.grid(row = 5, column = 0)
+    but_100.grid(row = 5, column = 1)
+    but_1000.grid(row = 5, column = 2)
+    but_10000.grid(row = 5, column = 3)
+#
+
+def set_name():
+    pass
+    global attempts
+    global min_attempts
+    attempts = min_attempts = 0
+    name_box.configure(state = DISABLED)
+    name_but.configure(state = DISABLED)
+    confirm_lab.config(text = "Welcome " + name_box.get() + " !!!")
+    confirm_lab.grid(row = 3, column = 0, columnspan = 2, pady = 15 )
+    min_attempts_lab.grid(row = 3,  column = 2)
+    min_attempts_box.grid(row = 3, column = 3)
+    set_limits()
+#
+
+#Driver program
+#create main window or panel
+myMain = Tk()
+myMain.title("Guess the Number!!!")
+myMain.configure(background="white")
+button_quit = Button(text = "Quit", command = myMain.quit)
+button_play_again = Button(text = "Play Again", command = play_again)
+
+#Welcome componets
+welcome_lab = Label(myMain, text = "Welcome to the Number Guessing Game....",  pady = 15)
+welcome_lab.configure(background = "white")
+name_lab = Label(myMain, text = "Enter your Name")
+name_box = Entry(myMain, width = 25, border = 2)
+name_but = Button(myMain, text = "Submit", command = set_name)
+confirm_lab = Label(myMain, text = "", bd = 2, relief = RAISED)
+min_attempts_lab = Label(myMain, text = "Minimum Turns", pady = 5)
+min_attempts_box = Entry(myMain, width = 8, border = 2, state = DISABLED)
+status_lab = Label(myMain, text = "", bd=1, relief = SUNKEN, anchor = E)
+
+#Limit setting components
+range_lab = Label(myMain, text = "Select the range to play the game...", pady = 5)
+but_10 = Button(myMain, text = "1 - 10", padx = 10 , command = lambda:target(10))
+but_100 = Button(myMain, text = "1 - 100", padx = 9, command = lambda:target(100))
+but_1000 = Button(myMain, text = "1 - 1000", padx = 7, command = lambda:target(1000))
+but_10000 = Button(myMain, text = "1 - 10000", padx = 5, command = lambda:target(10000))
+
+#Game play components
+sys_guess_lab = Label(myMain, text = "Dealer Pick", padx = 15, anchor = E)
+sys_guess_box = Entry(myMain, width = 8, border = 2)
+user_guess_lab = Label(myMain, text = "Enter your guess", anchor = E)
+user_guess_box = Entry(myMain, width = 8, border = 2)
+user_guess_but = Button(myMain, text = "Submit", command = check_guess)
+
+#place components on the main window
+welcome_lab.grid(row = 0, columnspan = 4)
+name_lab.grid(row = 1, column = 0)
+name_box.grid(row = 1, column = 1, columnspan = 2)
+name_but.grid(row = 1, column = 3)
+
+#create the eixt button
+button_play_again.grid(row = 10, column = 1)
+button_play_again.configure(state = DISABLED)
+button_quit.grid(row = 10, column = 2 )
+status_lab.grid(row = 11, column = 0, columnspan = 4, sticky = W+E)
+
+myMain.mainloop()
