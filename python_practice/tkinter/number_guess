@@ -1,4 +1,10 @@
 #Number guessing game using tkinter
+'''
+Guess number
+System starts with a random number in a range
+user keeps guessing till guesses correctly
+minimum turns is tracked
+'''
 
 import random
 import time
