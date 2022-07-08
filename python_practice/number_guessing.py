@@ -6,6 +6,8 @@ hints if guess is lower or higer than the random
 number generated
 # of turns will be saved to see the minimum
 turns taken the player/user
+
+committed to github now 8-jul-2022
 '''
 from tkinter import *
 import random
