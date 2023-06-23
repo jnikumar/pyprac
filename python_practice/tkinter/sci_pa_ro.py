@@ -58,7 +58,7 @@ global myPath
 global user_option, sys_option
 pl_score = sys_score = draw_score = 0
 
-myPath = "/Users/nijosyula/Personal/IGNOU/PGDCA/python_practice/tkinter/"
+myPath = "/Users/nijosyula/Personal/IGNOU/PGDCA/pyprac/python_practice/tkinter/"
 game_info_file = "sci_pa_ro_info.txt"
 
 get_input()

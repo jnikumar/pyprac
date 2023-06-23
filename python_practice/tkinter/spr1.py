@@ -86,7 +86,7 @@ global draw_score
 user_score = system_score = draw_score = 0
 
 #path variable & file names
-myPath = "/Users/nijosyula/Personal/IGNOU/PGDCA/python_practice/tkinter/"
+myPath = "/Users/nijosyula/Personal/IGNOU/PGDCA/pyprac/python_practice/tkinter/"
 game_info_file = "sci_pa_ro_info.txt"
 game_img = "spr_main.ico"
 sci_img = "sci.jpg"
